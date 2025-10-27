@@ -9,18 +9,18 @@ export function AboutSection({ scrollToSection }: { scrollToSection?: (index: nu
   return (
     <section
       ref={ref}
-      className="flex h-screen w-screen shrink-0 snap-start items-center px-4 pt-20 md:px-12 md:pt-0 lg:px-16"
+      className="flex min-h-screen h-auto sm:h-screen w-screen shrink-0 snap-start items-center px-4 py-16 sm:py-20 md:px-12 md:py-0 lg:px-16"
     >
       <div className="mx-auto w-full max-w-7xl">
-        <div className="grid gap-8 md:grid-cols-2 md:gap-16 lg:gap-24">
+        <div className="grid gap-8 sm:gap-12 md:grid-cols-2 md:gap-16 lg:gap-24">
           {/* Left side - Story */}
           <div>
             <div
-              className={`mb-6 transition-all duration-700 md:mb-12 ${
+              className={`mb-6 sm:mb-8 md:mb-12 transition-all duration-700 ${
                 isVisible ? "translate-y-0 opacity-100" : "-translate-y-12 opacity-0"
               }`}
             >
-              <h2 className="mb-3 font-sans text-3xl font-light leading-[1.1] tracking-tight text-foreground md:mb-4 md:text-6xl lg:text-7xl">
+              <h2 className="mb-3 font-sans text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-[1.1] tracking-tight text-foreground md:mb-4">
                 Building the
                 <br />
                 future of
@@ -30,23 +30,23 @@ export function AboutSection({ scrollToSection }: { scrollToSection?: (index: nu
             </div>
 
             <div
-              className={`space-y-3 transition-all duration-700 md:space-y-4 ${
+              className={`space-y-3 md:space-y-4 transition-all duration-700 ${
                 isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
               }`}
               style={{ transitionDelay: "200ms" }}
             >
-              <p className="max-w-md text-sm leading-relaxed text-foreground/90 md:text-lg">
+              <p className="max-w-md text-sm sm:text-base md:text-lg leading-relaxed text-foreground/90">
                 We're a collective of designers, developers, and creative technologists obsessed with crafting
                 exceptional digital experiences.
               </p>
-              <p className="max-w-md text-sm leading-relaxed text-foreground/90 md:text-lg">
+              <p className="max-w-md text-sm sm:text-base md:text-lg leading-relaxed text-foreground/90">
                 Every project is an opportunity to explore new possibilities and push creative boundaries.
               </p>
             </div>
           </div>
 
           {/* Right side - Stats with creative layout */}
-          <div className="flex flex-col justify-center space-y-6 md:space-y-12">
+          <div className="flex flex-col justify-center space-y-6 sm:space-y-8 md:space-y-12">
             {[
               { value: "150+", label: "Projects", sublabel: "Delivered worldwide", direction: "right" },
               { value: "8", label: "Years", sublabel: "Of innovation", direction: "left" },
@@ -62,17 +62,17 @@ export function AboutSection({ scrollToSection }: { scrollToSection?: (index: nu
               return (
                 <div
                   key={i}
-                  className={`flex items-baseline gap-4 border-l border-foreground/30 pl-4 transition-all duration-700 md:gap-8 md:pl-8 ${getRevealClass()}`}
+                  className={`flex items-baseline gap-3 sm:gap-4 md:gap-8 border-l border-foreground/30 pl-3 sm:pl-4 md:pl-8 transition-all duration-700 ${getRevealClass()}`}
                   style={{
                     transitionDelay: `${300 + i * 150}ms`,
                     marginLeft: i % 2 === 0 ? "0" : "auto",
                     maxWidth: i % 2 === 0 ? "100%" : "85%",
                   }}
                 >
-                  <div className="text-3xl font-light text-foreground md:text-6xl lg:text-7xl">{stat.value}</div>
+                  <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light text-foreground">{stat.value}</div>
                   <div>
-                    <div className="font-sans text-base font-light text-foreground md:text-xl">{stat.label}</div>
-                    <div className="font-mono text-xs text-foreground/60">{stat.sublabel}</div>
+                    <div className="font-sans text-base sm:text-lg md:text-xl font-light text-foreground">{stat.label}</div>
+                    <div className="font-mono text-xs sm:text-sm text-foreground/60">{stat.sublabel}</div>
                   </div>
                 </div>
               )
@@ -81,15 +81,15 @@ export function AboutSection({ scrollToSection }: { scrollToSection?: (index: nu
         </div>
 
         <div
-          className={`mt-8 flex flex-wrap gap-3 transition-all duration-700 md:mt-16 md:gap-4 ${
+          className={`mt-8 sm:mt-12 md:mt-16 flex flex-col sm:flex-row flex-wrap gap-3 md:gap-4 transition-all duration-700 ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
           }`}
           style={{ transitionDelay: "750ms" }}
         >
-          <MagneticButton size="lg" variant="primary" onClick={() => scrollToSection?.(4)}>
+          <MagneticButton size="lg" variant="primary" onClick={() => scrollToSection?.(4)} className="w-full sm:w-auto">
             Start a Project
           </MagneticButton>
-          <MagneticButton size="lg" variant="secondary" onClick={() => scrollToSection?.(1)}>
+          <MagneticButton size="lg" variant="secondary" onClick={() => scrollToSection?.(1)} className="w-full sm:w-auto">
             View Our Work
           </MagneticButton>
         </div>

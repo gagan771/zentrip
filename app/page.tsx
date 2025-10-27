@@ -130,28 +130,27 @@ export default function Home() {
       </div>
 
       <div
-        className={`relative z-10 flex h-screen w-full flex-col items-center justify-center px-6 transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+        className={`relative z-10 flex h-screen w-full flex-col items-center justify-center px-4 sm:px-6 md:px-8 transition-opacity duration-700 ${isLoaded ? "opacity-100" : "opacity-0"}`}
       >
         {/* Z Icon */}
-        <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-foreground/25 animate-in fade-in slide-in-from-top-4">
-          <span className="text-3xl font-serif italic font-black text-[rgba(238,238,238,1)]">Z</span>
+        <div className="mb-6 sm:mb-8 flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-lg bg-foreground/15 backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-foreground/25 animate-in fade-in slide-in-from-top-4">
+          <span className="text-2xl sm:text-3xl font-serif italic font-black text-[rgba(238,238,238,1)]">Z</span>
         </div>
 
-  <h1 className="mb-4 animate-in fade-in slide-in-from-bottom-4 text-center text-7xl tracking-tight duration-700 text-balance font-serif font-light md:text-7xl text-primary-foreground rounded-lg">
-  Zentrip.Social
-</h1>
+        {/* Main Heading - Responsive text sizes */}
+        <h1 className="mb-3 sm:mb-4 animate-in fade-in slide-in-from-bottom-4 text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight duration-700 text-balance font-serif font-light text-primary-foreground rounded-lg px-2">
+          Zentrip.Social
+        </h1>
 
-
-
-        {/* Subheading */}
-        <p className="mb-12 max-w-md animate-in fade-in slide-in-from-bottom-4 text-center text-lg text-foreground/80 duration-700 delay-100">
+        {/* Subheading - Responsive text and spacing */}
+        <p className="mb-8 sm:mb-10 md:mb-12 max-w-sm sm:max-w-md px-4 animate-in fade-in slide-in-from-bottom-4 text-center text-base sm:text-lg text-foreground/80 duration-700 delay-100">
           Join our waitlist to be the first to experience the future
         </p>
 
-        {/* Waitlist Form */}
+        {/* Waitlist Form - Better mobile layout */}
         <form
           onSubmit={handleSubmit}
-          className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200"
+          className="w-full max-w-md px-4 animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200"
         >
           <div className="flex flex-col gap-3 sm:flex-row">
             <input
@@ -160,9 +159,14 @@ export default function Home() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="flex-1 rounded-full bg-foreground/10 px-6 py-3.5 font-sans text-sm text-foreground placeholder-foreground/50 backdrop-blur-md transition-all duration-300 border border-foreground/20 hover:border-foreground/40 focus:border-foreground/60 focus:outline-none focus:ring-2 focus:ring-foreground/20"
+              className="flex-1 rounded-full bg-foreground/10 px-5 sm:px-6 py-3 sm:py-3.5 font-sans text-sm sm:text-base text-foreground placeholder-foreground/50 backdrop-blur-md transition-all duration-300 border border-foreground/20 hover:border-foreground/40 focus:border-foreground/60 focus:outline-none focus:ring-2 focus:ring-foreground/20"
             />
-            <MagneticButton variant="primary" size="lg" className="whitespace-nowrap" disabled={isSubmitting}>
+            <MagneticButton 
+              variant="primary" 
+              size="lg" 
+              className="whitespace-nowrap w-full sm:w-auto" 
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "Joining..." : isSubmitted ? "Joined!" : "Join Waitlist"}
             </MagneticButton>
           </div>
@@ -170,14 +174,14 @@ export default function Home() {
 
         {/* Success Message */}
         {isSubmitted && (
-          <p className="mt-6 animate-in fade-in text-center text-sm text-foreground/80">
+          <p className="mt-4 sm:mt-6 px-4 animate-in fade-in text-center text-sm sm:text-base text-foreground/80">
             Thanks for joining! Check your email for updates.
           </p>
         )}
 
         {/* Error Message */}
         {error && (
-          <p className="mt-6 animate-in fade-in text-center text-sm text-red-500">
+          <p className="mt-4 sm:mt-6 px-4 animate-in fade-in text-center text-sm sm:text-base text-red-500">
             {error}
           </p>
         )}

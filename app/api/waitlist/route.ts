@@ -1,4 +1,3 @@
-import { Client, Databases } from 'appwrite';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
@@ -9,26 +8,84 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 });
     }
 
-    const client = new Client()
-      .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
-      .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID!);
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json({ error: 'Invalid email format' }, { status: 400 });
+    }
 
-    const databases = new Databases(client);
+    // Get Telegram Bot credentials from environment variables
+    const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
+    const telegramChatId = process.env.TELEGRAM_CHAT_ID;
 
-    // Replace these with your actual database and collection IDs from Appwrite console
-    const databaseId = 'your-database-id'; // e.g., 'waitlist-db'
-    const collectionId = 'your-collection-id'; // e.g., 'emails'
+    if (!telegramBotToken || !telegramChatId) {
+      console.error('Telegram credentials not configured');
+      return NextResponse.json({ 
+        error: 'Notification service not configured' 
+      }, { status: 500 });
+    }
 
-    const response = await databases.createDocument(
-      databaseId,
-      collectionId,
-      'unique()', // Auto-generate ID
-      { email, createdAt: new Date().toISOString() }
-    );
+    // Prepare the message with detailed information
+    const timestamp = new Date().toLocaleString('en-US', {
+      timeZone: 'America/New_York',
+      dateStyle: 'full',
+      timeStyle: 'long'
+    });
 
-    return NextResponse.json({ message: 'Added to waitlist', data: response });
+    // Get additional info from request
+    const userAgent = request.headers.get('user-agent') || 'Unknown';
+    const ip = request.headers.get('x-forwarded-for') || 
+               request.headers.get('x-real-ip') || 
+               'Unknown';
+    const referer = request.headers.get('referer') || 'Direct';
+
+    // Format message for Telegram
+    const message = `
+🎉 *New Waitlist Signup!*
+
+📧 *Email:* \`${email.toLowerCase().trim()}\`
+📅 *Date:* ${timestamp}
+🌐 *IP Address:* ${ip}
+🖥️ *User Agent:* ${userAgent}
+🔗 *Referrer:* ${referer}
+
+---
+Total signups: Check your database!
+    `.trim();
+
+    // Send message to Telegram
+    const telegramApiUrl = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
+    
+    const response = await fetch(telegramApiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        chat_id: telegramChatId,
+        text: message,
+        parse_mode: 'Markdown',
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Telegram API error:', errorData);
+      return NextResponse.json({ 
+        error: 'Failed to send notification' 
+      }, { status: 500 });
+    }
+
+    return NextResponse.json({ 
+      message: 'Successfully joined the waitlist!',
+      email: email.toLowerCase().trim() 
+    });
+
   } catch (error: any) {
-    console.error('Error adding to waitlist:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error('Error processing waitlist:', error);
+    
+    return NextResponse.json({ 
+      error: 'Failed to join waitlist. Please try again.' 
+    }, { status: 500 });
   }
 }
