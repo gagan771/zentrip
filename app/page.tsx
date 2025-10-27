@@ -49,41 +49,45 @@ export default function Home() {
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!email || isSubmitting) return
+    e.preventDefault();
+    if (!email || isSubmitting) return;
 
-    setIsSubmitting(true)
-    setError("")
+    setIsSubmitting(true);
+    setError("");
 
     try {
       const res = await fetch('/api/waitlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
-      })
+      });
 
       if (res.ok) {
+        // Show confetti and success immediately
         if (confettiRef.current) {
-          const confetti = require("canvas-confetti")
+          const confetti = require("canvas-confetti");
           confetti({
             canvas: confettiRef.current,
             particleCount: 100,
             spread: 70,
             origin: { y: 0.6 },
             colors: ["#26ccff", "#a25afd", "#ff5e7e", "#88ff5a", "#fcff42", "#ffa62d", "#ff36ff"],
-          })
+          });
         }
-        setIsSubmitted(true)
-        setEmail("")
-        setTimeout(() => setIsSubmitted(false), 3000)
+  setIsSubmitted(true);
+  setEmail("");
+  setError("");
       } else {
-        const data = await res.json()
-        setError(data.error || 'Failed to join waitlist')
+        // Only show error if API returns error
+        const data = await res.json();
+        setError(data.error || 'Failed to join waitlist');
+        setIsSubmitted(false);
       }
     } catch (err) {
-      setError('Network error. Please try again.')
+      setError('');
+      setIsSubmitted(false);
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
   }
 
@@ -157,7 +161,11 @@ export default function Home() {
               type="email"
               placeholder="Enter your email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (isSubmitted) setIsSubmitted(false);
+                if (error) setError("");
+              }}
               required
               className="flex-1 rounded-full bg-foreground/10 px-5 sm:px-6 py-3 sm:py-3.5 font-sans text-sm sm:text-base text-foreground placeholder-foreground/50 backdrop-blur-md transition-all duration-300 border border-foreground/20 hover:border-foreground/40 focus:border-foreground/60 focus:outline-none focus:ring-2 focus:ring-foreground/20"
             />
