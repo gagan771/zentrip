@@ -9,13 +9,32 @@ const journeyVideo = '/videos/main-video.mp4'
 
 export default function Page() {
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [submitError, setSubmitError] = useState(false)
   const [started, setStarted] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setIsSubmitted(true)
+    const form = event.currentTarget
+    const email = new FormData(form).get('email') as string
+    setSubmitError(false)
+    try {
+      const response = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Unable to join waitlist')
+      }
+
+      setIsSubmitted(true)
+      return
+    } catch {
+      setSubmitError(true)
+    }
   }
 
   // Click "Explore" → unmute, play video, hide splash
@@ -103,6 +122,11 @@ export default function Page() {
               <input id="email" name="email" type="email" required placeholder="Your email address" autoComplete="email" />
               <button type="submit">Keep me posted <ArrowUpRight size={16} strokeWidth={1.6} /></button>
             </form>
+          )}
+          {submitError && (
+            <p className="form-error" role="alert">
+              We couldn&apos;t add you right now. Please try again.
+            </p>
           )}
           <p className="form-note">Launching soon · Join the first departure</p>
         </section>

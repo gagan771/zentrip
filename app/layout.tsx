@@ -6,25 +6,34 @@ import './globals.css'
 const brandFont = Space_Grotesk({ subsets: ['latin'], variable: '--font-brand' })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.zentrip.social'),
   title: 'zentrip.social — Your journey starts here',
   description: 'A new way to discover the places, people, and stories that make travel unforgettable. Launching soon.',
   generator: 'zentrip.social',
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
+    icon: '/icon.svg',
+    apple: '/icon.svg',
+  },
+  openGraph: {
+    type: 'website',
+    url: 'https://www.zentrip.social',
+    siteName: 'zentrip.social',
+    title: 'zentrip.social — Your journey starts here',
+    description: 'A new way to discover the places, people, and stories that make travel unforgettable.',
+    images: [
       {
         url: '/icon.svg',
-        type: 'image/svg+xml',
+        width: 180,
+        height: 180,
+        alt: 'zentrip.social logo',
       },
     ],
-    apple: '/apple-icon.png',
+  },
+  twitter: {
+    card: 'summary',
+    title: 'zentrip.social — Your journey starts here',
+    description: 'A new way to discover the places, people, and stories that make travel unforgettable.',
+    images: ['/icon.svg'],
   },
 }
 
@@ -50,5 +59,4 @@ export default function RootLayout({
     </html>
   )
 }
-
 

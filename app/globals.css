@@ -200,7 +200,7 @@
 .journey-hero { display: flex; width: min(100%, 1200px); flex: 1; flex-direction: column; justify-content: center; padding: 5rem clamp(1.5rem, 10vw, 10rem); }
 .eyebrow { display: flex; align-items: center; gap: .7rem; margin: 0 0 1.6rem; color: var(--journey-accent); font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; }
 .eyebrow span { height: 1px; width: 2.3rem; background: var(--journey-accent); }
-h1 { max-width: 780px; margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(4rem, 9vw, 8.5rem); font-weight: 400; letter-spacing: -.075em; line-height: .88; text-wrap: balance; }
+h1 { max-width: 780px; margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2.8rem, 6vw, 5.5rem); font-weight: 400; letter-spacing: -.075em; line-height: .88; text-wrap: balance; }
 h1 em { color: var(--journey-accent); font-style: italic; }
 .hero-copy { max-width: 350px; margin: 2rem 0 2.2rem; color: var(--journey-muted); font-size: .98rem; line-height: 1.65; }
 .interest-form { display: flex; max-width: 430px; border-bottom: 1px solid rgba(243,238,227,.65); }
@@ -211,6 +211,7 @@ h1 em { color: var(--journey-accent); font-style: italic; }
 .form-note { margin: .85rem 0 0; color: rgba(243,238,227,.54); font-size: .65rem; letter-spacing: .05em; text-transform: uppercase; }
 .success-message { display: flex; align-items: center; gap: .7rem; max-width: 430px; border-bottom: 1px solid var(--journey-accent); padding: .85rem 0; color: var(--journey-ink); font-size: .85rem; }
 .success-message span { color: var(--journey-accent); }
+.form-error { margin: .85rem 0 0; color: #ff9b9b; font-size: .8rem; }
 .journey-footer { color: rgba(243,238,227,.65); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; }
 .location-note { display: inline-flex; align-items: center; gap: .65rem; }
 .location-note i { display: inline-block; height: .45rem; width: .45rem; border-radius: 50%; background: var(--journey-accent); box-shadow: 0 0 0 .25rem rgba(211,173,103,.15); }
