@@ -42,7 +42,6 @@ export default function Page() {
         ref={videoRef}
         className="journey-video"
         autoPlay
-        muted
         playsInline
         aria-hidden="true"
         onEnded={handleVideoEnded}
@@ -52,7 +51,7 @@ export default function Page() {
       <div className="journey-scrim" aria-hidden="true" />
       <div className="journey-grain" aria-hidden="true" />
 
-      {/* ── Black overlay with logo + email form ── */}
+      {/* ── Black overlay with logo + text (no form) ── */}
       <div className={`pause-overlay ${showOverlay ? 'visible' : ''}`}>
         <div className="pause-content">
           <a className="brand brand--center" href="#top" aria-label="zentrip.social home">
@@ -62,18 +61,6 @@ export default function Page() {
 
           <p className="pause-tagline">Your journey starts here.</p>
           <p className="pause-copy">A new way to discover the places, people, and stories that make travel unforgettable.</p>
-
-          {isSubmitted ? (
-            <div className="success-message success-message--center" role="status">
-              <span>✓</span> You&apos;re on the list. We&apos;ll be in touch.
-            </div>
-          ) : (
-            <form className="interest-form interest-form--center" onSubmit={handleSubmit}>
-              <label className="sr-only" htmlFor="pause-email">Email address</label>
-              <input id="pause-email" name="email" type="email" required placeholder="Your email address" autoComplete="email" />
-              <button type="submit">Keep me posted <ArrowUpRight size={16} strokeWidth={1.6} /></button>
-            </form>
-          )}
           <p className="form-note">Launching soon · Join the first departure</p>
         </div>
       </div>
