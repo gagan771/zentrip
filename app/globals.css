@@ -257,7 +257,7 @@ h1 em { color: var(--journey-accent); font-style: italic; }
   font-style: italic;
   letter-spacing: -.04em;
   line-height: 1.15;
-  color: #d3ad67;
+  color: #00e5dc;
 }
 
 .splash-copy {
@@ -272,10 +272,10 @@ h1 em { color: var(--journey-accent); font-style: italic; }
   display: inline-flex;
   align-items: center;
   gap: .6rem;
-  border: 1px solid rgba(211,173,103,.4);
+  border: 1px solid rgba(0,229,220,.4);
   border-radius: 3rem;
   padding: .85rem 2.2rem;
-  background: rgba(211,173,103,.08);
+  background: rgba(0,229,220,.08);
   color: #f3eee3;
   font-family: var(--font-brand), sans-serif;
   font-size: .95rem;
@@ -286,10 +286,10 @@ h1 em { color: var(--journey-accent); font-style: italic; }
   transition: all .3s ease;
 }
 .explore-btn:hover {
-  background: rgba(211,173,103,.18);
-  border-color: rgba(211,173,103,.7);
+  background: rgba(0,229,220,.18);
+  border-color: rgba(0,229,220,.7);
   transform: scale(1.04);
-  box-shadow: 0 0 30px rgba(211,173,103,.12);
+  box-shadow: 0 0 30px rgba(0,229,220,.12);
 }
 .explore-btn:active {
   transform: scale(.97);
