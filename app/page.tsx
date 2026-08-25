@@ -9,7 +9,6 @@ const journeyVideo = '/videos/main-video.mp4'
 
 export default function Page() {
   const [isSubmitted, setIsSubmitted] = useState(false)
-  const [showOverlay, setShowOverlay] = useState(false)
   const [isMuted, setIsMuted] = useState(true)
   const videoRef = useRef<HTMLVideoElement>(null)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -28,7 +27,6 @@ export default function Page() {
       if (videoRef.current) {
         videoRef.current.muted = false
         setIsMuted(false)
-        // If video wasn't playing, start it
         videoRef.current.play().catch(() => {})
       }
       document.removeEventListener('click', tryUnmute)
@@ -50,12 +48,9 @@ export default function Page() {
     }
   }, [])
 
-  // Video ended → show overlay → resume after 5s
+  // Video ended → wait 5s → replay
   const handleVideoEnded = useCallback(() => {
-    setShowOverlay(true)
-
     timerRef.current = setTimeout(() => {
-      setShowOverlay(false)
       if (videoRef.current) {
         videoRef.current.currentTime = 0
         videoRef.current.play().catch(() => {})
@@ -95,21 +90,6 @@ export default function Page() {
       <div className="journey-scrim" aria-hidden="true" />
       <div className="journey-grain" aria-hidden="true" />
 
-      {/* ── Black overlay with logo + text ── */}
-      <div className={`pause-overlay ${showOverlay ? 'visible' : ''}`}>
-        <div className="pause-content">
-          <a className="brand brand--center" href="#top" aria-label="zentrip.social home">
-            <img className="brand-mark brand-mark--lg" src={zentripMark} alt="Zentrip Z mark" />
-            <span className="brand-name brand-name--lg">zentrip<span className="brand-dot">.</span>social</span>
-          </a>
-
-          <p className="pause-tagline">Your journey starts here.</p>
-          <p className="pause-copy">A new way to discover the places, people, and stories that make travel unforgettable.</p>
-          <p className="form-note">Launching soon · Join the first departure</p>
-        </div>
-      </div>
-
-      {/* ── Normal page content ── */}
       <header className="journey-header">
         <a className="brand" href="#top" aria-label="zentrip.social home">
           <img className="brand-mark" src={zentripMark} alt="Zentrip Z mark" />
