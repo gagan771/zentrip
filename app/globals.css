@@ -169,7 +169,7 @@
 .journey-page {
   --journey-ink: #f3eee3;
   --journey-muted: #d0c8b7;
-  --journey-accent: #d3ad67;
+  --journey-accent: #00e5dc;
   position: relative;
   display: flex;
   min-height: 100svh;

@@ -91,7 +91,7 @@ export default function Page() {
 
         <section className="journey-hero" id="top" aria-labelledby="launch-title">
           <p className="eyebrow"><span /> An invitation to wander</p>
-          <h1 id="launch-title">Your journey<br /><em>starts here.</em></h1>
+          <h1 id="launch-title">One place solution<br /><em>for all travel problems.</em></h1>
           <p className="hero-copy">A new way to discover the places, people, and stories that make travel unforgettable.</p>
           {isSubmitted ? (
             <div className="success-message" role="status">
