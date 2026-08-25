@@ -195,7 +195,8 @@
 .brand-mark { display: block; height: 2.15rem; width: 2.15rem; border-radius: .35rem; object-fit: cover; }
 .brand-name { font-family: var(--font-brand), sans-serif; font-size: 1.2rem; font-weight: 700; letter-spacing: -.08em; }
 .brand-dot { color: #00e5dc; }
-.sound-status { color: var(--journey-muted); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; }
+.sound-toggle { display: inline-flex; align-items: center; gap: .45rem; border: 1px solid rgba(243,238,227,.2); border-radius: 2rem; padding: .4rem .9rem; background: rgba(243,238,227,.06); color: var(--journey-muted); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; transition: all .25s ease; backdrop-filter: blur(8px); }
+.sound-toggle:hover { background: rgba(243,238,227,.12); color: var(--journey-ink); border-color: rgba(243,238,227,.35); }
 .journey-hero { display: flex; width: min(100%, 1200px); flex: 1; flex-direction: column; justify-content: center; padding: 5rem clamp(1.5rem, 10vw, 10rem); }
 .eyebrow { display: flex; align-items: center; gap: .7rem; margin: 0 0 1.6rem; color: var(--journey-accent); font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; }
 .eyebrow span { height: 1px; width: 2.3rem; background: var(--journey-accent); }

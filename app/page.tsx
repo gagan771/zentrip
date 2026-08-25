@@ -1,7 +1,7 @@
 'use client'
 
 import { FormEvent, useState, useRef, useCallback, useEffect } from 'react'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, Volume2, VolumeX } from 'lucide-react'
 
 const zentripMark = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-10-23%20163331-14EzIqG1sI1mNUGXpNDJcZZosYe5P3.png'
 
@@ -10,14 +10,47 @@ const journeyVideo = '/videos/main-video.mp4'
 export default function Page() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [showOverlay, setShowOverlay] = useState(false)
+  const [isMuted, setIsMuted] = useState(true)
   const videoRef = useRef<HTMLVideoElement>(null)
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const hasUnmuted = useRef(false)
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setIsSubmitted(true)
   }
 
+  // Unmute on first user interaction anywhere on the page
+  useEffect(() => {
+    function tryUnmute() {
+      if (hasUnmuted.current) return
+      hasUnmuted.current = true
+      if (videoRef.current) {
+        videoRef.current.muted = false
+        setIsMuted(false)
+        // If video wasn't playing, start it
+        videoRef.current.play().catch(() => {})
+      }
+      document.removeEventListener('click', tryUnmute)
+      document.removeEventListener('touchstart', tryUnmute)
+      document.removeEventListener('keydown', tryUnmute)
+      document.removeEventListener('scroll', tryUnmute)
+    }
+
+    document.addEventListener('click', tryUnmute, { once: true })
+    document.addEventListener('touchstart', tryUnmute, { once: true })
+    document.addEventListener('keydown', tryUnmute, { once: true })
+    document.addEventListener('scroll', tryUnmute, { once: true })
+
+    return () => {
+      document.removeEventListener('click', tryUnmute)
+      document.removeEventListener('touchstart', tryUnmute)
+      document.removeEventListener('keydown', tryUnmute)
+      document.removeEventListener('scroll', tryUnmute)
+    }
+  }, [])
+
+  // Video ended → show overlay → resume after 5s
   const handleVideoEnded = useCallback(() => {
     setShowOverlay(true)
 
@@ -25,7 +58,7 @@ export default function Page() {
       setShowOverlay(false)
       if (videoRef.current) {
         videoRef.current.currentTime = 0
-        videoRef.current.play()
+        videoRef.current.play().catch(() => {})
       }
     }, 5000)
   }, [])
@@ -36,12 +69,23 @@ export default function Page() {
     }
   }, [])
 
+  // Toggle mute manually
+  function toggleMute() {
+    if (videoRef.current) {
+      const newMuted = !videoRef.current.muted
+      videoRef.current.muted = newMuted
+      setIsMuted(newMuted)
+      hasUnmuted.current = true
+    }
+  }
+
   return (
     <main className="journey-page">
       <video
         ref={videoRef}
         className="journey-video"
         autoPlay
+        muted
         playsInline
         aria-hidden="true"
         onEnded={handleVideoEnded}
@@ -51,7 +95,7 @@ export default function Page() {
       <div className="journey-scrim" aria-hidden="true" />
       <div className="journey-grain" aria-hidden="true" />
 
-      {/* ── Black overlay with logo + text (no form) ── */}
+      {/* ── Black overlay with logo + text ── */}
       <div className={`pause-overlay ${showOverlay ? 'visible' : ''}`}>
         <div className="pause-content">
           <a className="brand brand--center" href="#top" aria-label="zentrip.social home">
@@ -65,13 +109,16 @@ export default function Page() {
         </div>
       </div>
 
-      {/* ── Normal page content (visible while video plays) ── */}
+      {/* ── Normal page content ── */}
       <header className="journey-header">
         <a className="brand" href="#top" aria-label="zentrip.social home">
           <img className="brand-mark" src={zentripMark} alt="Zentrip Z mark" />
           <span className="brand-name">zentrip<span className="brand-dot">.</span>social</span>
         </a>
-        <span className="sound-status">Sound on</span>
+        <button className="sound-toggle" onClick={toggleMute} aria-label={isMuted ? 'Unmute' : 'Mute'}>
+          {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+          <span>{isMuted ? 'Sound off' : 'Sound on'}</span>
+        </button>
       </header>
 
       <section className="journey-hero" id="top" aria-labelledby="launch-title">
