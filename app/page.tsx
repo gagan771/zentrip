@@ -5,7 +5,7 @@ import { ArrowUpRight } from 'lucide-react'
 
 const zentripMark = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot%202025-10-23%20163331-14EzIqG1sI1mNUGXpNDJcZZosYe5P3.png'
 
-const journeyVideo = '/videos/virtual-journey-through-india.mp4'
+const journeyVideo = '/videos/main-video.mp4'
 
 export default function Page() {
   const [isSubmitted, setIsSubmitted] = useState(false)
