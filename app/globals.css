@@ -218,80 +218,107 @@ h1 em { color: var(--journey-accent); font-style: italic; }
 @media (max-width: 600px) { .journey-header, .journey-footer { padding: 1.35rem 1.25rem; } .journey-hero { padding: 4rem 1.25rem; } h1 { font-size: clamp(3.6rem, 18vw, 6rem); } .hero-copy { max-width: 290px; } .journey-footer { font-size: .58rem; } .sound-toggle span { display: none; } }
 @media (prefers-reduced-motion: reduce) { .journey-video { display: none; } .journey-page { background: #27352b; } }
 
-/* ── Pause overlay (black screen between video loops) ── */
-.pause-overlay {
+/* ── Splash intro screen ── */
+.splash-screen {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 200;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #0a0a0a;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .8s ease;
+  transition: opacity .9s ease, visibility .9s ease;
 }
-.pause-overlay.visible {
-  opacity: 1;
-  pointer-events: auto;
+.splash-screen.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
-.pause-content {
+.splash-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: .5rem;
-  max-width: 480px;
+  gap: .6rem;
   padding: 2rem;
+  animation: fadeUp .8s ease both;
 }
 
-.brand--center { justify-content: center; margin-bottom: 1.2rem; }
-.brand-mark--lg { height: 3.5rem; width: 3.5rem; border-radius: .5rem; }
-.brand-name--lg { font-size: 1.6rem; }
+.brand--splash { justify-content: center; margin-bottom: .8rem; }
+.brand-mark--splash { height: 4rem; width: 4rem; border-radius: .6rem; }
+.brand-name--splash { font-size: 1.8rem; }
 
-.pause-tagline {
+.splash-title {
   margin: 0;
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
   font-weight: 400;
   font-style: italic;
   letter-spacing: -.04em;
-  line-height: 1.1;
-  color: var(--journey-accent);
+  line-height: 1.15;
+  color: #d3ad67;
 }
 
-.pause-copy {
-  margin: .6rem 0 1.5rem;
-  max-width: 340px;
-  color: var(--journey-muted);
+.splash-copy {
+  margin: .4rem 0 1.8rem;
+  max-width: 360px;
+  color: #d0c8b7;
   font-size: .9rem;
   line-height: 1.6;
 }
 
-.interest-form--center {
-  justify-content: center;
-  max-width: 380px;
-  width: 100%;
+.explore-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  border: 1px solid rgba(211,173,103,.4);
+  border-radius: 3rem;
+  padding: .85rem 2.2rem;
+  background: rgba(211,173,103,.08);
+  color: #f3eee3;
+  font-family: var(--font-brand), sans-serif;
+  font-size: .95rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .3s ease;
+}
+.explore-btn:hover {
+  background: rgba(211,173,103,.18);
+  border-color: rgba(211,173,103,.7);
+  transform: scale(1.04);
+  box-shadow: 0 0 30px rgba(211,173,103,.12);
+}
+.explore-btn:active {
+  transform: scale(.97);
 }
 
-.success-message--center {
-  justify-content: center;
-  max-width: 380px;
-  width: 100%;
+/* ── Page content (hidden until Explore clicked) ── */
+.page-content {
+  display: contents;
+  opacity: 0;
+  pointer-events: none;
+}
+.page-content.visible {
+  opacity: 1;
+  pointer-events: auto;
+  animation: fadeIn .6s ease .3s both;
 }
 
-/* Fade-in animation for overlay content */
-.pause-overlay.visible .pause-content {
-  animation: fadeUp .6s ease .15s both;
-}
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(18px); }
+  from { opacity: 0; transform: translateY(22px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @media (max-width: 600px) {
-  .brand-mark--lg { height: 2.8rem; width: 2.8rem; }
-  .brand-name--lg { font-size: 1.3rem; }
-  .pause-content { padding: 1.5rem; }
+  .brand-mark--splash { height: 3rem; width: 3rem; }
+  .brand-name--splash { font-size: 1.4rem; }
+  .splash-content { padding: 1.5rem; }
+  .explore-btn { padding: .75rem 1.8rem; font-size: .85rem; }
 }
