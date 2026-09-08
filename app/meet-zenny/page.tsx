@@ -25,6 +25,7 @@ import {
 import { SiteHeader } from '@/components/site/header'
 import { SiteFooter } from '@/components/site/footer'
 import { WaitlistForm } from '@/components/site/waitlist-form'
+import { Faq } from '@/components/site/faq'
 import { ZennyVoiceWidget } from '@/components/zenny/voice-widget'
 import { PartnerBadge } from '@/components/zenny/partner-badge'
 import './meet-zenny.css'
@@ -209,29 +210,40 @@ export default function MeetZennyPage() {
       <SiteHeader />
       <main className="zn-page">
         <section className="zn-hero">
-          <div className="zn-hero-glow" aria-hidden="true" />
-          <div className="zn-hero-inner">
-            <p className="zn-eyebrow">
-              <span /> India&apos;s AI travel companion
-            </p>
-            <h1>
-              Talk to India
-              <br />
-              <em>like a local knows it.</em>
-            </h1>
-            <p className="zn-hero-copy">
-              Zenny is a live voice companion for travellers in India — grounded in reviewed local
-              knowledge, fluent in eleven languages, and one call away whenever you need her.
-            </p>
-            <div className="zn-hero-cta">
-              <a className="zn-btn zn-btn-primary zn-btn-lg" href="#try-zenny">
-                <Sparkles size={18} strokeWidth={1.8} /> Talk to Zenny now
-              </a>
-              <a className="zn-btn zn-btn-ghost zn-btn-lg" href="/#top">
-                Join the waitlist
-              </a>
+          <div className="zn-hero-panel">
+            <div className="zn-hero-glow" aria-hidden="true" />
+            <div className="zn-hero-inner">
+              <span className="zn-pill">
+                <Sparkles size={12} strokeWidth={2} /> AI travel companion
+              </span>
+              <h1>
+                Talk to India
+                <br />
+                <em>like a local knows it.</em>
+              </h1>
+              <p className="zn-hero-copy">
+                Zenny is a live voice companion for travellers in India — grounded in reviewed local
+                knowledge, fluent in eleven languages, and one call away whenever you need her.
+              </p>
+              <div className="zn-hero-cta">
+                <a className="zn-btn zn-btn-primary zn-btn-lg" href="#try-zenny">
+                  Talk to Zenny now
+                </a>
+                <a className="zn-btn zn-btn-ghost zn-btn-lg" href="#inside">
+                  See what it does
+                </a>
+              </div>
+              <div className="zn-hero-proof">
+                <div className="zn-proof-langs">
+                  {['हि', 'த', 'తె', 'বা', 'ਪੰ'].map((glyph) => (
+                    <span key={glyph} className="zn-proof-glyph">
+                      {glyph}
+                    </span>
+                  ))}
+                </div>
+                <p>Eleven Indian languages · Free live demo · No sign-up</p>
+              </div>
             </div>
-            <p className="zn-hero-note">Free live demo · No sign-up · 90 seconds, real voice</p>
           </div>
         </section>
 
@@ -296,17 +308,31 @@ export default function MeetZennyPage() {
             <p className="zn-kicker">How it works</p>
             <h2>Three steps. No script.</h2>
           </div>
-          <div className="zn-steps">
-            {STEPS.map((step, index) => (
-              <div key={step.title} className="zn-step">
-                <div className="zn-step-icon">
-                  <step.icon size={22} strokeWidth={1.8} />
-                </div>
-                <span className="zn-step-num">{String(index + 1).padStart(2, '0')}</span>
-                <h3>{step.title}</h3>
-                <p>{step.copy}</p>
+          <div className="zn-flow">
+            <ol className="zn-flow-steps">
+              {STEPS.map((step, index) => (
+                <li key={step.title} className="zn-flow-step">
+                  <span className="zn-flow-num">{index + 1}</span>
+                  <div>
+                    <h3>{step.title}</h3>
+                    <p>{step.copy}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <div className="zn-flow-visual" aria-hidden="true">
+              <div className="zn-flow-glow" />
+              <div className="zn-flow-orb">
+                <Volume2 size={26} strokeWidth={1.6} />
               </div>
-            ))}
+              <p className="zn-flow-caption">&ldquo;Is the Taj open on Fridays?&rdquo;</p>
+              <div className="zn-flow-wave">
+                {[8, 16, 26, 34, 24, 40, 30, 18, 26, 12, 20, 9].map((h, i) => (
+                  <span key={i} style={{ height: `${h}px` }} />
+                ))}
+              </div>
+              <p className="zn-flow-sub">Answering in voice · grounded, sourced</p>
+            </div>
           </div>
         </section>
 
@@ -439,12 +465,29 @@ export default function MeetZennyPage() {
           </p>
         </section>
 
+        <section className="zn-section" id="faq">
+          <div className="zn-section-head">
+            <p className="zn-kicker">FAQ</p>
+            <h2>Frequently asked questions</h2>
+            <p className="zn-scope-sub">
+              Everything you need to know about Zenny and how she fits into your trip.
+            </p>
+          </div>
+          <Faq />
+        </section>
+
         <section className="zn-cta">
-          <div className="zn-cta-inner">
-            <Route size={28} strokeWidth={1.6} />
-            <h2>Ready to never plan alone again?</h2>
-            <p>Join the waitlist for early access, or talk to Zenny above while you decide.</p>
-            <WaitlistForm variant="dark" />
+          <div className="zn-cta-panel">
+            <div className="zn-cta-inner">
+              <Route size={26} strokeWidth={1.6} />
+              <h2>
+                Ready to never
+                <br />
+                plan alone again?
+              </h2>
+              <p>Join the waitlist for early access, or talk to Zenny above while you decide.</p>
+              <WaitlistForm variant="dark" />
+            </div>
           </div>
         </section>
       </main>

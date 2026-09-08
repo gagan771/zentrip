@@ -12,7 +12,7 @@ const LINKS = [
   { href: '#how-it-works', label: 'How it works' },
   { href: '#everything', label: 'One call' },
   { href: '#inside', label: 'Inside the app' },
-  { href: '#features', label: 'What Zenny does' },
+  { href: '#faq', label: 'FAQ' },
 ]
 
 export function SiteHeader() {
