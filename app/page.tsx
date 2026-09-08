@@ -105,7 +105,12 @@ export default function Page() {
             <img className="brand-mark" src={zentripMark} alt="Zentrip Z mark" />
             <span className="brand-name">zentrip<span className="brand-dot">.</span>social</span>
           </a>
-          <span className="sound-status">Sound on</span>
+          <div className="journey-header-right">
+            <a className="meet-zenny-link" href="/meet-zenny">
+              Meet Zenny <ArrowUpRight size={13} strokeWidth={2} />
+            </a>
+            <span className="sound-status">Sound on</span>
+          </div>
         </header>
 
         <section className="journey-hero" id="top" aria-labelledby="launch-title">

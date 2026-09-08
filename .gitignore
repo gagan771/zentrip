@@ -18,6 +18,8 @@ yarn-error.log*
 
 # env files
 .env*
+# ...but the template documents required vars and holds no secrets.
+!.env.example
 
 # vercel
 .vercel
