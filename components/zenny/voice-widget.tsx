@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Mic, PhoneOff, Loader2 } from 'lucide-react'
 
+import { ConfettiBurst } from '@/components/zenny/confetti-burst'
 import { createDemoSession, demoSocketUrl } from '@/lib/zenny-demo'
 import { createPlayback, startMic, type MicHandle, type PlaybackHandle } from '@/lib/pcm-audio'
 
@@ -30,11 +31,14 @@ export function ZennyVoiceWidget() {
   const [error, setError] = useState('')
   const [secondsLeft, setSecondsLeft] = useState<number | null>(null)
   const [level, setLevel] = useState(0)
+  const [celebrating, setCelebrating] = useState(false)
 
   const socketRef = useRef<WebSocket | null>(null)
   const micRef = useRef<MicHandle | null>(null)
   const playbackRef = useRef<PlaybackHandle | null>(null)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const celebrationTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const celebratedRef = useRef(false)
   const phaseRef = useRef<Phase>('idle')
   phaseRef.current = phase
 
@@ -42,6 +46,10 @@ export function ZennyVoiceWidget() {
     if (timerRef.current) {
       clearInterval(timerRef.current)
       timerRef.current = null
+    }
+    if (celebrationTimerRef.current) {
+      clearTimeout(celebrationTimerRef.current)
+      celebrationTimerRef.current = null
     }
     if (socketRef.current) {
       try {
@@ -63,6 +71,13 @@ export function ZennyVoiceWidget() {
 
   useEffect(() => () => cleanup(), [cleanup])
 
+  const celebrateConnection = useCallback(() => {
+    if (celebratedRef.current) return
+    celebratedRef.current = true
+    setCelebrating(true)
+    celebrationTimerRef.current = setTimeout(() => setCelebrating(false), 1300)
+  }, [])
+
   const endCall = useCallback(
     (nextPhase: Phase, message?: string) => {
       try {
@@ -71,6 +86,7 @@ export function ZennyVoiceWidget() {
         // Socket already gone.
       }
       cleanup()
+      setCelebrating(false)
       setPhase(nextPhase)
       setLevel(0)
       if (message) setError(message)
@@ -81,6 +97,8 @@ export function ZennyVoiceWidget() {
   const startCall = useCallback(async () => {
     setError('')
     setCaption('')
+    setCelebrating(false)
+    celebratedRef.current = false
     setPhase('connecting')
     try {
       const session = await createDemoSession()
@@ -117,6 +135,7 @@ export function ZennyVoiceWidget() {
           setPhase('speaking')
         } else if (message.type === 'status' && message.phase === 'listening') {
           setPhase('listening')
+          celebrateConnection()
         } else if (message.type === 'partial' && message.text) {
           setCaption(message.text)
         } else if (message.type === 'speak' && message.text) {
@@ -158,16 +177,22 @@ export function ZennyVoiceWidget() {
       }, 1000)
     } catch (caught) {
       cleanup()
+      setCelebrating(false)
       setPhase('error')
       setError(caught instanceof Error ? caught.message : 'Could not start the microphone.')
     }
-  }, [cleanup, endCall])
+  }, [celebrateConnection, cleanup, endCall])
 
   const isLive = phase === 'listening' || phase === 'speaking' || phase === 'connecting'
 
   return (
     <div className="zn-widget">
+      <div className="zn-widget-meta" aria-label="Demo details">
+        <span><i /> Live voice</span>
+        <span>90-second demo</span>
+      </div>
       <div className={`zn-orb-wrap ${phase}`}>
+        <ConfettiBurst active={celebrating} />
         <div className="zn-orb-ring" style={{ transform: `scale(${1 + level * 0.35})` }} />
         <button
           type="button"
@@ -185,7 +210,7 @@ export function ZennyVoiceWidget() {
         </button>
       </div>
 
-      <p className="zn-widget-phase">{error && phase !== 'listening' && phase !== 'speaking' ? error : PHASE_LABEL[phase]}</p>
+      <p className="zn-widget-phase" aria-live="polite">{error && phase !== 'listening' && phase !== 'speaking' ? error : PHASE_LABEL[phase]}</p>
 
       {caption && isLive ? <p className="zn-widget-caption">&ldquo;{caption}&rdquo;</p> : null}
 

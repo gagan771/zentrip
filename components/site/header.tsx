@@ -64,7 +64,7 @@ export function SiteHeader() {
           </a>
           <a className="zn-btn zn-btn-primary zn-btn-glow" href="#try-zenny">
             <span className="zn-live-dot" />
-            <AnimatedGradientText colorFrom="#8ec5ff" colorTo="#eaf3ff" speed={1.4} className="zn-gradient-label">
+            <AnimatedGradientText colorFrom="#00e5dc" colorTo="#e8fffc" speed={1.4} className="zn-gradient-label">
               Talk to Zenny
             </AnimatedGradientText>
           </a>
