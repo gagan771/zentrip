@@ -1,4 +1,17 @@
-const API_BASE = (process.env.NEXT_PUBLIC_ZENTRIP_API_URL || 'http://127.0.0.1:8001').replace(/\/$/, '')
+const PRODUCTION_API_BASE = 'https://api.zentrip.social'
+const configuredApiBase = (process.env.NEXT_PUBLIC_ZENTRIP_API_URL || PRODUCTION_API_BASE).replace(/\/$/, '')
+
+function isLocalApi(url: string) {
+  return /^https?:\/\/(?:127\.0\.0\.1|localhost)(?::\d+)?(?:\/|$)/i.test(url)
+}
+
+// Local development sets NEXT_PUBLIC_ZENTRIP_API_URL to 127.0.0.1 in .env.local.
+// Do not let a mistakenly copied localhost setting make a deployed browser call
+// the visitor's own computer.
+const API_BASE =
+  typeof window !== 'undefined' && !isLocalApi(window.location.origin) && isLocalApi(configuredApiBase)
+    ? PRODUCTION_API_BASE
+    : configuredApiBase
 
 export type DemoSession = {
   wsUrl: string
